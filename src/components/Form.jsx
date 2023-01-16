@@ -3,12 +3,12 @@ import { monedas } from "../data/monedas";
 import useSelectMonedas from "../hooks/useSelectMonedas";
 import Error from "./Error";
 
-const Form = () => {
+const Form = ({ setMonedas }) => {
   const [criptos, setCriptos] = useState([]);
   const [error, setError] = useState(false);
 
-  const [moneda, SelectMonedas] = useSelectMonedas("Elije tu moneda", monedas);
-  const [cripto, SelectCriptos] = useSelectMonedas("Elije tu cripto", criptos);
+  const [moneda, SelectMonedas] = useSelectMonedas("Elije tu Moneda", monedas);
+  const [cripto, SelectCriptos] = useSelectMonedas("Elije tu Criptomoneda", criptos);
 
   useEffect(() => {
     const getApi = async () => {
@@ -31,11 +31,15 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ([moneda, cripto]) {
+    if ([moneda, cripto].includes('')) {
       setError(true);
       return;
     }
     setError(false);
+    setMonedas({
+      moneda,
+      cripto,
+    });
   };
 
   return (
